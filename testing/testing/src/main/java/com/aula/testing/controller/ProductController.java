@@ -1,23 +1,20 @@
 package com.aula.testing.controller;
 
 import com.aula.testing.models.ProductEntity;
-import com.aula.testing.repository.ProductRepository;
+import com.aula.testing.repository.ProductRepo;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private ProductRepository productRepository;
+    private ProductRepo productRepository;
 
-    public ProductController(ProductRepository productRepository)
-    {
-        this.productRepository = productRepository;
-    }
+
     @GetMapping
     public List<ProductEntity> ListAll(){
         return productRepository.findAll();
@@ -28,9 +25,4 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @PutMapping
-    public ResponseEntity<ProductEntity> Load(@RequestBody ProductEntity product){
-        productRepository.save(product);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
-    }
 }
