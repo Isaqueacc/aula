@@ -24,5 +24,9 @@ public class ProductController {
         productRepository.save(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
+    @DeleteMapping("/{id}")
+    public void DeletarProduto(@PathVariable Long id){
+        productRepository.deleteById(id);
+    }
 
 }
