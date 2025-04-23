@@ -21,4 +21,5 @@ public class ProductEntity {
     @Column(nullable = false)
     private Double preco;
 
+
 }
