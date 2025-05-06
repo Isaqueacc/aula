@@ -4,7 +4,10 @@ import com.aula.testing.models.UserEntity;
 import com.aula.testing.repository.UserRepo;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -27,13 +30,14 @@ public class UserService {
     }
 
     // Atualizar usuario
-    public UserEntity atualizar(@Valid UserEntity userEntity){
-        UserEntity userNow = userRepo.findById(userEntity.getId())
-                .orElseThrow(()-> new IllegalArgumentException("Usuario não cadastrado"));
+    public ResponseEntity<UserEntity> atualizar(@PathVariable long id, @RequestBody UserEntity userEntity){
+        UserEntity userNow = userRepo.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("Usuario não cadastrado : " + id));
         userNow.setNome(userEntity.getNome());
-        userNow.setEmail(userNow.getEmail());
+        userNow.setEmail(userEntity.getEmail());
         userNow.setSenha(userEntity.getSenha());
-        return userRepo.save(userNow);
+        userRepo.save(userNow);
+        return ResponseEntity.ok(userNow);
     }
 
     //Excluir usuario

@@ -13,7 +13,7 @@ import javax.management.relation.RelationNotFoundException;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-
+@CrossOrigin(origins = "+")
 @RestController
 @RequestMapping("/login")
 public class UserController {
@@ -37,14 +37,19 @@ public class UserController {
                 .body(Map.of("message", "Usuário cadastrado com sucesso"));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String,Object>> atualizar(@Valid @RequestBody UserEntity userEntity){
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("Message", "Usuario Atualizado com sucesso"));
+    public ResponseEntity<Map<String,Object>> atualizar(@PathVariable Long id, @RequestBody UserEntity userEntity){
+        userService.atualizar(id, userEntity);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("Message", "Usuario Atualizado com sucesso"));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Map<String, Object>> excluir(@PathVariable Long id){
         userService.excluir(id);
-        return ResponseEntity.status(HttpStatus.OK).body(Map.of("Menssagem", "Usuário excluido com sucesso"));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(Map.of("Menssagem", "Usuário excluido com sucesso"));
 
     }
 
